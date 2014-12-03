@@ -21,11 +21,14 @@ public class GameUI {
 		play();
 	}
 	
+	// gets integers from the user
 	private static int getInt(String context)
 	{
 		Scanner scanner = new Scanner(new InputStreamReader(System.in));
 		String choiceStr;
 		int choice;
+		
+		// loops until user enters a valid choice
 		do{
 			choiceStr = scanner.nextLine();
 			try{
@@ -33,6 +36,7 @@ public class GameUI {
 				return choice;
 			} catch (NumberFormatException e)
 			{
+				// allows for a contextualised error message
 				System.out.println("That is not a valid " + context + " try again.");
 			}
 		} while (true);
@@ -65,11 +69,13 @@ public class GameUI {
 		System.out.println("OK, your pet will be called " + petName);
 		
 		
+		// gets a valid gender from the player
 		do{
 			System.out.println("Now is " + petName + " a boy[b] or a girl[g]?");
 			petGenderChoice = scanner.nextLine().charAt(0);
-			
-			if(petGenderChoice == 'b' | petGenderChoice == 'g') {
+
+			// choice has to be either a boy or a girl
+			if(petGenderChoice == 'b' || petGenderChoice == 'g') {
 				break;
 			} else {
 				System.out.println("That is not a valid choice, try again.");
@@ -84,6 +90,8 @@ public class GameUI {
 			System.out.println("OK, " + petName + " is a girl.");
 		}
 		
+		// gets the species of the pet
+		// TODO update the getInt method to replace this
 		do{
 			System.out.println("Now, what species is " + petName + "? A Monkey[0], an Octopus[1] or a Seagull[2]?");
 			petSpeciesChoice = scanner.nextLine();
@@ -126,7 +134,11 @@ public class GameUI {
 			System.out.println("talk[0], play[1], sleep[2], feed[3], buy[4], work[5], exercise[6]," +
 					" viewStats[7], quit[8], " + petSpeciesName + " stuff[9]");
 			
-			userAction = UserActions.values()[scanner.nextInt()];
+			// uses get int to get a valid user action
+			// TODO range check response
+			int actionChosen = getInt("action");
+			userAction = UserActions.values()[actionChosen];
+			// applies the action
 			switch(userAction){
 			case talk:
 				Pet.talk();
@@ -162,6 +174,7 @@ public class GameUI {
 				} 
 				break;
 			case speciesAction:
+				// special menu for the user choosing an action based on the species
 				int choice;
 				switch(petSpeciesName)
 				{
