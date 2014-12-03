@@ -1,6 +1,7 @@
 package na417.Sup3.Game.UI;
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
+
 import na417.Sup3.Game.Core.CyberPet;
 import na417.Sup3.Game.Core.Monkey;
 import na417.Sup3.Game.Core.Octopus;
@@ -20,6 +21,23 @@ public class GameUI {
 		play();
 	}
 	
+	private static int getInt(String context)
+	{
+		Scanner scanner = new Scanner(new InputStreamReader(System.in));
+		String choiceStr;
+		int choice;
+		do{
+			choiceStr = scanner.nextLine();
+			try{
+				choice = Integer.parseInt(choiceStr);
+				return choice;
+			} catch (NumberFormatException e)
+			{
+				System.out.println("That is not a valid " + context + " try again.");
+			}
+		} while (true);
+	}
+	
 	private static void play()
 	{
 		// scanner to read text input
@@ -28,8 +46,11 @@ public class GameUI {
 		// Holds the information about the player's selected pet
 		String petName = "";
 		int petGender = 0;
+		char petGenderChoice;
 		int petSpecies = 0;
+		String petSpeciesChoice = "";
 		String petSpeciesName = "";
+		
 		
 		// Holds user inputs in the main game
 		UserActions userAction;
@@ -43,18 +64,37 @@ public class GameUI {
 		petName = scanner.nextLine();
 		System.out.println("OK, your pet will be called " + petName);
 		
-		System.out.println("Now is " + petName + " a boy[b] or a girl[g]?");
-		petGender = scanner.nextLine().charAt(0) == 'b' ? 0 : 1;
 		
+		do{
+			System.out.println("Now is " + petName + " a boy[b] or a girl[g]?");
+			petGenderChoice = scanner.nextLine().charAt(0);
+			
+			if(petGenderChoice == 'b' | petGenderChoice == 'g') {
+				break;
+			} else {
+				System.out.println("That is not a valid choice, try again.");
+			}
+		} while (true);
+		
+		petGender = petGenderChoice == 'b' ? 0 : 1;
+				
 		if(petGender == 0) {
 			System.out.println("OK, " + petName + " is a boy.");
 		} else {
 			System.out.println("OK, " + petName + " is a girl.");
 		}
 		
-		System.out.println("Now, what species is " + petName + "? A Monkey[0], an Octopus[1] or a Seagull[2]?");
-		
-		petSpecies = scanner.nextInt();
+		do{
+			System.out.println("Now, what species is " + petName + "? A Monkey[0], an Octopus[1] or a Seagull[2]?");
+			petSpeciesChoice = scanner.nextLine();
+			try{
+				petSpecies = Integer.parseInt(petSpeciesChoice);
+				break;
+			} catch (NumberFormatException e) 
+			{
+				System.out.println("That is not a valid choice of species, try again.");
+			}
+		} while (true);
 		
 		// instantiate the pet
 		switch(petSpecies)
@@ -122,9 +162,50 @@ public class GameUI {
 				} 
 				break;
 			case speciesAction:
+				int choice;
+				switch(petSpeciesName)
+				{
+				case "Monkey":
+					System.out.println("Do you want to climb[1] or groom[2] or " +
+							"return to the main menu[3]");
+					choice = getInt(petSpeciesName + " action");
+					switch(choice)
+					{
+					case 1:
+						
+						break;
+					case 2:
+						break;
+					}
+					break;
+				case "Octopus":
+					System.out.println("Do you want to swim[1] or hunt[2]" +
+							"return to the main menu[3]");
+					choice = getInt(petSpeciesName + " action");
+					switch(choice)
+					{
+					case 1:
+						
+						break;
+					case 2:
+						break;
+					}
+					break;
+				case "Seagull":
+					System.out.println("Do you want to fly[1] or scavenge[2] +" +
+							"return to the main menu[3]");
+					choice = getInt(petSpeciesName + " action");
+					switch(choice)
+					{
+					case 1:
+						break;
+					case 2:
+						break;
+					}
+					break;
+				}
 				break;
 			}
 		}
 	}
-
 }
